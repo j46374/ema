@@ -99,7 +99,83 @@
       .table-container {
         overflow-x: auto;
       }
+
+      /* Mobile-specific styles */
+      @media (max-width: 768px) {
+        .table-container table {
+          border: none;
+          table-layout: fixed; /* Ensure table respects column widths */
+          width: 100%; /* Ensure table takes full width */
+        }
+
+        .table-container thead {
+          display: none; /* Hide table headers */
+        }
+
+        .table-container tbody tr {
+          display: block;
+          margin-bottom: 1em;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          overflow: hidden;
+          width: 100%; /* Ensure the row takes full width */
+          box-sizing: border-box; /* Include padding in width calculation */
+        }
+
+        .table-container tbody td {
+          display: block;
+          padding: 10px;
+          border: none;
+          position: relative;
+        }
+
+        .table-container tbody td:not(:first-child) {
+          display: none; /* Hide all columns except "Event Name" */
+        }
+
+        .table-container tbody tr.expanded td {
+          display: block; /* Show all columns when expanded */
+        }
+
+        .table-container tbody td:first-child {
+          background-color: #d8bfd8; /* Light purple background */
+          color: #000000; /* Black font color */
+          font-weight: bold;
+          cursor: pointer;
+          width: 100%; /* Ensure "Event Name" takes full width */
+          box-sizing: border-box; /* Include padding in width calculation */
+        }
+
+        /* Add labels for other columns */
+        .table-container tbody td:not(:first-child)::before {
+          content: attr(data-label);
+          font-weight: bold;
+          display: block;
+          margin-bottom: 5px;
+          color: #444;
+        }
+      }
     </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const rows = document.querySelectorAll(".table-container tbody tr");
+
+        // Expand the first row by default
+        if (rows.length > 0) {
+          rows[0].classList.add("expanded");
+        }
+
+        // Add click event to toggle row expansion
+        rows.forEach((row) => {
+          row.querySelector("td:first-child").addEventListener("click", () => {
+            // Collapse any expanded rows
+            rows.forEach((r) => r.classList.remove("expanded"));
+            // Expand the clicked row
+            row.classList.add("expanded");
+          });
+        });
+      });
+    </script>
   </head>
   <body>
     <img class="responsive-image" alt="Event Banner" src="images/image1.png" />
@@ -164,11 +240,11 @@
         <tbody>
           <tr>
             <td>Bharatanatyam</td>
-            <td>
+            <td data-label="Event Rules">
               Participants are not allowed to make any announcements.<br />
               The audio track must be shared by <strong>April 30th</strong>
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Aangika Abhinaya (30 Points)<br />
               Vaachika Abhinaya (10 Points)<br />
               Aahaarya Abhinaya (10 Points)<br />
@@ -176,17 +252,17 @@
               Taal And Laya (20 Points)<br />
               Space Usage And Presentation (10 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Cinematic/Fusion/Western Dance</td>
-            <td>
+            <td data-label="Event Rules">
               Participants are not allowed to make any announcements.<br />
               The audio track must be shared by <strong>April 30th</strong
               ><br />
               EMA is not responsible for any loss of stage properties.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Choreography - (40 Points).<br />
               Steps, Transitions, Originality, Movement Techniques,<br />
               Fluidity, Music Quality, Interpretation Of Music<br />
@@ -195,11 +271,11 @@
               Costume And Prop Usage (20 Points).<br />
               Overall Presentation (10 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Group Dance (Min 3 People)</td>
-            <td>
+            <td data-label="Event Rules">
               A minimum of 3 and a maximum of 7 participants are allowed for
               this competition.<br />
               The audio track must be shared by <strong>April 30th.</strong
@@ -208,7 +284,7 @@
               then the team will be competing in the age group of max aged
               participant from the group.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Choreography - (30 Points).<br />
               Steps, Transitions, Originality, Movement Techniques,<br />
               Fluidity, Music Quality, Interpretation Of Music<br />
@@ -218,90 +294,92 @@
               Costume And Prop Usage (20 Points).<br />
               Overall Presentation (10 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Carnatic Music</td>
-            <td>Participants are allowed to use the shruti box.</td>
-            <td>
+            <td data-label="Event Rules">
+              Participants are allowed to use the shruti box.
+            </td>
+            <td data-label="Judgement Criteria">
               Raga (Melody): (25 Points)<br />
               Tala (Rhythm): (25 Points)<br />
               Bhava (Expression): (25 Points)<br />
               Composition: (15 Points)<br />
               Overall Impression: (10 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Light Music (Malayalam)</td>
-            <td>
+            <td data-label="Event Rules">
               Only non-film songs are allowed; performing a film song will lead
               to disqualification.<br />
               Accompanying Instruments/ karaoke are not allowed.<br />
               The song language must be Malayalam.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Swaram (20 Points)<br />
               Sruthilayam (20 Points)<br />
               Rhythm (20 Points)<br />
               Bhavam (20 Points)<br />
               Literary Clarity. (20 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Film Song (Malayalam)</td>
-            <td>
+            <td data-label="Event Rules">
               The language must be Malayalam.<br />
               Karaoke is allowed and should be shared by
               <strong>April 30th.</strong>
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Swaram (20 Points)<br />
               Sruthilayam (20 Points)<br />
               Rhythm (20 Points)<br />
               Bhavam (20 Points)<br />
               Literary Clarity. (20 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Western Music</td>
-            <td>
+            <td data-label="Event Rules">
               The performance should be in English language.<br />
               Accompanying Instruments are not allowed.<br />
               Karaoke is allowed. The karaoke track must be shared by
               <strong>April 30th.</strong>
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Rhythm And Beat (20 Points)<br />
               Selection Of Song (20 Points)<br />
               Voice Quality (20 Points)<br />
               Accent (20 Points)<br />
               Variation &amp; Overall Impact (20 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Instruments (String Or Wind)</td>
-            <td>
+            <td data-label="Event Rules">
               Other accompanying Instruments/ records/ tracks karaoke are not
               allowed.<br />
               Participants can perform on only one instrument - either string or
               wind.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Rhythm And Timing - 15 Points<br />
               Creativity - 15 Points<br />
               Authenticity And Perfection - 30 Points<br />
               Expression - 20 Points<br />
               Execution - 20 Points
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Recitation Malayalam</td>
-            <td>
+            <td data-label="Event Rules">
               Participants must recite Malayalam poetry by a poet of their
               choice.<br />
               The participant can announce the name of the poem and the poet at
@@ -310,17 +388,17 @@
               Participants must recite the poem without written aids.<br />
               No records, tracks or karaoke are allowed.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Voice And Articulation (30 Points)<br />
               Expression Of Emotion (30 Points)<br />
               Memorization (20 Points)<br />
               Overall Performance (20 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Recitation English</td>
-            <td>
+            <td data-label="Event Rules">
               Participants must recite English poetry by a poet of their
               choice.<br />
               The participant can announce the name of the poem and the poet at
@@ -329,118 +407,118 @@
               Participants must recite the poem without written aids.<br />
               No records, tracks or karaoke are allowed.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Voice And Articulation (30 Points)<br />
               Expression Of Emotion (30 Points)<br />
               Memorization (20 Points)<br />
               Overall Performance (20 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Elocution English</td>
-            <td>
+            <td data-label="Event Rules">
               Participants must use the English language only while
               performing.<br />
               The topic will be published a week before the competition.<br />
               Participants must perform the elocution without written aids.<br />
               Participants must adhere to the time limit.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Idea/ Knowledge (20 Points)<br />
               Clarity (20 Points)<br />
               Voice Modulation (20 Points)<br />
               Confidence On Stage (20 Points)<br />
               Fluency (20 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Elocution Malayalam</td>
-            <td>
+            <td data-label="Event Rules">
               Participants must use Malayalam language only while performing.<br />
               The topic will be published a week before the competition.<br />
               Participants should perform the elocution without written aids.<br />
               Participants must adhere to the time limit.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Idea/ Knowledge (20 Points)<br />
               Clarity (20 Points)<br />
               Voice Modulation (20 Points)<br />
               Confidence On Stage (20 Points)<br />
               Fluency (20 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Story Telling Malayalam</td>
-            <td>
+            <td data-label="Event Rules">
               Stories presented can be authentic, adapted or originally
               written.<br />
               Participants must use Malayalam language only while performing.<br />
               Participants must perform the story telling without written aids.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Pronunciation (20 Points)<br />
               Fluency(Pace,Voice Quality,Vocal Expression) (20 Points)<br />
               Performance(Confidence,Gesture,Mimicry) (20 Points)<br />
               Creativity (20 Points)<br />
               Time Management (20 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Story Telling English</td>
-            <td>
+            <td data-label="Event Rules">
               Stories presented can be authentic, adapted or originally
               written.<br />
               Participants must use the English language only while
               performing.<br />
               Participants must perform the story telling without written aids.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Pronunciation (20 Points)<br />
               Fluency(Pace,Voice Quality,Vocal Expression) (20 Points)<br />
               Performance(Confidence,Gesture,Mimicry) (20 Points)<br />
               Creativity (20 Points)<br />
               Time Management (20 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Mono Act</td>
-            <td>
+            <td data-label="Event Rules">
               Participants may select a theme, topic or subject of their own.<br />
               Participants can use any supplementary items to perform their act
               in the best possible manner, which must be arranged by
               participants on their own.<br />
               No records, audio tracks or karaoke are allowed.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Acting Skills (20 Points)<br />
               Script (20 Points)<br />
               Dialogue Delivery (20 Points)<br />
               Presentation (20 Points)<br />
               Time Management (20 Points)
             </td>
-            <td>5 Min</td>
+            <td data-label="Time Limit in Mins">5 Min</td>
           </tr>
           <tr>
             <td>Fancy Dress</td>
-            <td>
+            <td data-label="Event Rules">
               Participants may select a theme, topic or subject of their own.<br />
               Participants can use any supplementary items to perform their act
               in the best possible manner, which must be arranged by
               participants on their own.
             </td>
-            <td>
+            <td data-label="Judgement Criteria">
               Costume (20 Points)<br />
               Theme Adherence (20 Points)<br />
               Expression And Gestures. (20 Points)<br />
               Novelty ( New Ideas) (20 Points)<br />
               Over All Impression (20 Points)
             </td>
-            <td>3 Min</td>
+            <td data-label="Time Limit in Mins">3 Min</td>
           </tr>
         </tbody>
       </table>
